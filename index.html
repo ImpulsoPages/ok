@@ -1,576 +1,416 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0B1829">
-  <title>ONESIDE Legal | Gestión de casos</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-  <style>
-    :root{--navy:#0B1829;--navy2:#142A43;--gold:#C6A66B;--bg:#F6F5F1;--text:#202B39;--muted:#77808D;--line:#E7E5DF;--white:#fff;--green:#286644;--red:#B42318}
-    *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased}
-    button,input,textarea{font:inherit}
-    button{cursor:pointer}
-    button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #C6A66B88;outline-offset:2px}
-    .topbar{background:var(--navy);border-bottom:2px solid var(--gold);color:#fff}
-    .topbar-inner,.main,.footer-inner{width:min(1120px,calc(100% - 40px));margin:auto}
-    .topbar-inner{min-height:74px;display:flex;align-items:center;justify-content:space-between;gap:16px}
-    .brand{display:flex;align-items:center;gap:12px;color:white;text-decoration:none}
-    .brand-icon{width:40px;height:40px;border:1px solid #C6A66B88;border-radius:11px;display:grid;place-items:center;color:var(--gold)}
-    .brand-name{font-weight:700;letter-spacing:.15em;font-size:17px}
-    .brand-sub{display:block;font-size:9px;letter-spacing:.22em;color:#CBD2DC;margin-top:3px}
-    .btn{border:0;border-radius:9px;padding:11px 16px;font-weight:600;font-size:13px;transition:background .15s,transform .15s}
-    .btn:hover{transform:translateY(-1px)}
-    .btn-gold{background:var(--gold);color:var(--navy)}
-    .btn-gold:hover{background:#D5B982}
-    .btn-primary{background:var(--navy);color:white}
-    .btn-primary:hover{background:var(--navy2)}
-    .btn-secondary{background:white;border:1px solid #DCDDDC;color:#4B5563}
-    .btn-secondary:hover{background:#F8F7F4}
-    .main{min-height:calc(100vh - 150px);padding:38px 0 54px}
-    .eyebrow{text-transform:uppercase;letter-spacing:.17em;font-size:10px;font-weight:700;color:var(--muted);margin:0 0 12px}
-    h1{font-size:clamp(27px,4vw,36px);letter-spacing:-.055em;color:var(--navy);margin:0;font-weight:700}
-    .rule{width:42px;height:3px;border-radius:3px;background:var(--gold);margin:15px 0}
-    .intro{color:var(--muted);font-size:14px;line-height:1.7;margin:0;max-width:650px}
-    .section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:30px 0 15px}
-    .section-head h2{font-size:14px;color:var(--navy);margin:0}
-    .small-muted{font-size:11px;color:#9299A3}
-    .state{background:#fff;border:1px solid var(--line);border-radius:16px;padding:46px 22px;text-align:center;box-shadow:0 8px 25px #0B182908}
-    .state-icon{width:58px;height:58px;display:grid;place-items:center;margin:0 auto 15px;border-radius:16px;background:#F6F3EC;color:#A78950;font-size:23px}
-    .state h3{color:var(--navy);font-size:17px;margin:0 0 8px}
-    .state p{font-size:13px;line-height:1.6;color:var(--muted);margin:0 auto 18px;max-width:430px}
-    .spinner{width:22px;height:22px;border:2px solid #DCDDDC;border-top-color:var(--gold);border-radius:50%;display:inline-block;animation:spin .8s linear infinite;vertical-align:middle;margin-right:9px}
-    @keyframes spin{to{transform:rotate(360deg)}}
-    .cases{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
-    .case-card{background:#fff;border:1px solid var(--line);border-radius:15px;overflow:hidden;display:flex;flex-direction:column;min-width:0;transition:transform .18s,box-shadow .18s}
-    .case-card:hover{transform:translateY(-3px);box-shadow:0 12px 28px #0B182910;border-color:#D7C6A5}
-    .card-body{padding:22px;flex:1}
-    .card-overline{font-size:9px;text-transform:uppercase;letter-spacing:.15em;color:#969CA5;margin:0 0 8px}
-    .card-title-row{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
-    .card-title{font-size:15px;line-height:1.5;color:var(--navy);overflow-wrap:anywhere;margin:0;font-weight:700}
-    .badge{flex-shrink:0;font-size:10px;font-weight:600;padding:5px 8px;border-radius:6px}
-    .badge-regular{background:#E9EDF3;color:var(--navy);border:1px solid #D9E0E9}
-    .badge-probono{background:#E9F3EC;color:var(--green);border:1px solid #D5E7DA}
-    .card-description{font-size:12px;line-height:1.75;color:#687281;margin:15px 0 18px;overflow-wrap:anywhere;white-space:pre-line}
-    .document-box{padding:13px;background:#F8F7F4;border:1px solid #EEECE6;border-radius:10px;display:flex;gap:11px}
-    .document-icon{color:#A78950;margin-top:2px}
-    .document-label{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#828894;font-weight:700;margin-bottom:5px}
-    .document-value{font-size:12px;line-height:1.5;overflow-wrap:anywhere}
-    .card-footer{padding:15px 22px;background:#FAF9F6;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px}
-    .card-footer span:first-child{font-size:9px;font-weight:700;letter-spacing:.12em;color:#828894;text-transform:uppercase}
-    .card-total{font-size:13px;font-weight:700;color:var(--navy);text-align:right}
-    footer{background:var(--navy);border-top:2px solid var(--gold);color:#D1D7E0}
-    .footer-inner{min-height:68px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:11px}
-    .modal-backdrop{position:fixed;inset:0;z-index:50;background:#08121fAA;backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;padding:16px}
-    .hidden{display:none!important}
-    .modal{background:white;border-radius:18px;width:min(680px,100%);max-height:94vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 25px 80px #0004}
-    .modal-header{background:var(--navy);color:#fff;border-bottom:2px solid var(--gold);padding:18px 23px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-    .modal-header h2{font-size:16px;margin:0}
-    .modal-header p{font-size:11px;color:#CBD2DC;margin:5px 0 0}
-    .icon-button{border:0;background:transparent;color:#CBD2DC;padding:7px;font-size:18px}
-    .icon-button:hover{color:white}
-    .modal-body{padding:24px;overflow-y:auto}
-    .form-section-title{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700;color:var(--navy);margin:0 0 16px}
-    .form-section-title i{color:#A78950}
-    .field{margin-bottom:15px}
-    .field label{display:block;font-size:12px;font-weight:600;color:#344052;margin-bottom:7px}
-    .required{color:#B42318}
-    .control{display:block;width:100%;min-height:43px;border:1px solid #DCDDDC;border-radius:8px;padding:10px 12px;background:#fff;color:var(--text);font-size:13px}
-    .control:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px #C6A66B29}
-    .control::placeholder{color:#A0A5AD}
-    textarea.control{min-height:86px;resize:vertical;line-height:1.6}
-    .separator{border:0;border-top:1px solid var(--line);margin:22px 0}
-    .quote-panel{background:#F8F7F4;border:1px solid var(--line);border-radius:11px;padding:13px;margin-bottom:14px}
-    .quote-entry{display:grid;grid-template-columns:minmax(0,1fr) 135px auto;align-items:end;gap:10px}
-    .quote-entry .field{margin:0}
-    .quote-entry label{font-size:11px}
-    .table-wrap{border:1px solid var(--line);border-radius:10px;overflow-x:auto;margin-bottom:15px}
-    table{border-collapse:collapse;width:100%;font-size:12px}
-    th{background:#F5F4F0;text-transform:uppercase;letter-spacing:.09em;color:#707784;font-size:9px;text-align:left;padding:12px}
-    td{padding:12px;border-top:1px solid #EEECE6;overflow-wrap:anywhere}
-    .right{text-align:right;white-space:nowrap}
-    .remove-item{border:0;background:transparent;color:#9299A3;padding:5px}
-    .remove-item:hover{color:var(--red)}
-    .probono-option{display:flex;gap:11px;align-items:flex-start;background:#F1F3F6;border:1px solid #E0E5EC;border-radius:10px;padding:13px;cursor:pointer}
-    .probono-option input{accent-color:var(--navy);margin-top:3px}
-    .probono-option strong{display:block;font-size:12px;color:var(--navy)}
-    .probono-option small{display:block;color:var(--muted);font-size:11px;line-height:1.5;margin-top:4px}
-    .modal-footer{padding:17px 24px;background:#FAF9F6;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:15px}
-    .total-label{font-size:11px;color:var(--muted);font-weight:600}
-    .total-value{font-size:24px;font-weight:700;letter-spacing:-.04em;color:var(--navy);margin-top:3px}
-    .probono-badge{display:inline-block;margin-top:5px;background:#E9F3EC;color:var(--green);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:5px 7px;border-radius:5px}
-    .footer-actions{display:flex;gap:8px}
-    .alert-modal{width:min(390px,100%);background:#fff;border-radius:16px;padding:26px;text-align:center;box-shadow:0 25px 80px #0004}
-    .alert-icon{font-size:34px;margin-bottom:13px}
-    .alert-modal h3{font-size:17px;color:var(--navy);margin:0 0 8px}
-    .alert-modal p{font-size:13px;line-height:1.65;color:#687281;margin:0 0 20px;overflow-wrap:anywhere}
-    .connection-note{font-size:12px;line-height:1.7;color:#687281;margin-top:13px}
-    @media(max-width:900px){.cases{grid-template-columns:repeat(2,minmax(0,1fr))}}
-    @media(max-width:600px){
-      .topbar-inner,.main,.footer-inner{width:calc(100% - 30px)}
-      .topbar-inner{min-height:68px}
-      .main{padding-top:29px}
-      .cases{grid-template-columns:1fr}
-      .section-head{align-items:flex-start}
-      .small-muted{max-width:120px;text-align:right}
-      .modal-backdrop{padding:8px}
-      .modal{max-height:96vh;border-radius:14px}
-      .modal-body{padding:18px}
-      .modal-header{padding:16px 18px}
-      .modal-footer{padding:16px 18px;align-items:stretch;flex-direction:column}
-      .footer-actions{flex-direction:column-reverse;width:100%}
-      .footer-actions .btn{width:100%}
-      .quote-entry{grid-template-columns:1fr 1fr}
-      .quote-entry .field:first-child{grid-column:1/-1}
-      .quote-entry #btnAddItem{grid-column:1/-1;width:100%}
-      .footer-inner{padding:17px 0;justify-content:center;text-align:center}
-    }
-    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0B1829">
+<title>ONESIDE Legal | Gestión de casos</title>
+<style>
+:root{--navy:#0b1829;--navy2:#142a43;--gold:#c6a66b;--bg:#f6f5f1;--text:#202b39;--muted:#77808d;--line:#e7e5df;--green:#286644;--red:#b42318}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.6 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+header{background:var(--navy);color:white;border-bottom:3px solid var(--gold);padding:18px 5%;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{font-size:19px;font-weight:800;letter-spacing:3px}
+.brand small{display:block;color:#c6a66b;font-size:10px;letter-spacing:2px}
+main{width:min(1100px,92%);margin:42px auto 70px}
+.eyebrow{color:var(--muted);font-size:11px;letter-spacing:2px;text-transform:uppercase}
+h1{color:var(--navy);font-size:clamp(28px,5vw,40px);line-height:1.2;margin:8px 0}
+.intro{color:var(--muted);max-width:650px}
+button{border:0;border-radius:8px;padding:11px 16px;font-weight:650}
+.primary{background:var(--navy);color:white}
+.primary:hover{background:var(--navy2)}
+.gold{background:var(--gold);color:var(--navy)}
+.secondary{background:white;border:1px solid var(--line);color:var(--navy)}
+.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:32px 0 16px}
+.section-head h2{font-size:17px;color:var(--navy)}
+.cases{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.card{background:white;border:1px solid var(--line);border-radius:13px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 5px 20px #0b18290a}
+.card-body{padding:21px;flex:1}
+.label{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted)}
+.card h3{font-size:17px;color:var(--navy);overflow-wrap:anywhere}
+.card p{white-space:pre-line;overflow-wrap:anywhere}
+.badge{display:inline-block;padding:4px 8px;border-radius:5px;background:#e9edf3;color:var(--navy);font-size:11px}
+.badge.pro{background:#e9f3ec;color:var(--green)}
+.document{padding:12px;background:#f8f7f4;border-radius:8px;font-size:12px;overflow-wrap:anywhere}
+.card-foot{padding:15px 21px;background:#faf9f6;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;font-size:12px}
+.empty{padding:45px 20px;text-align:center;background:white;border:1px solid var(--line);border-radius:14px}
+.empty h3{color:var(--navy)}
+.muted{color:var(--muted);font-size:13px}
+footer{background:var(--navy);color:#d1d7e0;padding:22px 5%;font-size:12px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.overlay{position:fixed;inset:0;background:#08121fcc;display:flex;align-items:center;justify-content:center;padding:14px;z-index:5}
+.hidden{display:none!important}
+.modal{background:white;border-radius:15px;width:min(680px,100%);max-height:94vh;overflow:auto}
+.modal-head{background:var(--navy);color:white;border-bottom:3px solid var(--gold);padding:19px 23px;display:flex;justify-content:space-between;align-items:center}
+.modal-head h2{margin:0;font-size:18px}
+.modal-body{padding:22px}
+.field{margin-bottom:15px}
+.field label{display:block;font-size:12px;font-weight:700;margin-bottom:6px}
+input:not([type=checkbox]),textarea{width:100%;padding:11px 12px;border:1px solid #dcdedc;border-radius:8px;background:white;color:var(--text)}
+textarea{min-height:85px;resize:vertical}
+input:focus,textarea:focus{outline:2px solid #c6a66b88;border-color:var(--gold)}
+.quote{padding:15px;background:#f8f7f4;border:1px solid var(--line);border-radius:10px;margin:18px 0}
+.quote-row{display:grid;grid-template-columns:minmax(0,1fr) 145px auto;gap:9px;align-items:end}
+table{width:100%;border-collapse:collapse;font-size:12px;margin-top:12px}
+td,th{text-align:left;padding:9px;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
+th{font-size:10px;color:var(--muted);text-transform:uppercase}
+.right{text-align:right;white-space:nowrap}
+.remove{background:transparent;color:var(--red);padding:4px}
+.pro-option{display:flex;gap:10px;padding:13px;background:#f1f3f6;border-radius:9px;font-size:13px}
+.pro-option input{margin-top:5px}
+.pro-option small{display:block;color:var(--muted)}
+.modal-foot{padding:17px 22px;background:#faf9f6;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:12px}
+.total{font-size:23px;font-weight:800;color:var(--navy)}
+.notice{position:fixed;right:20px;bottom:20px;z-index:10;background:var(--navy);color:white;padding:14px 18px;border-radius:10px;box-shadow:0 8px 30px #0002;max-width:calc(100% - 40px)}
+.notice.error{background:var(--red)}
+@media(max-width:850px){.cases{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:580px){header{padding:15px 4%}.brand{font-size:16px}main{margin-top:28px}.cases{grid-template-columns:1fr}.section-head{align-items:flex-start}.quote-row{grid-template-columns:1fr 110px}.quote-row button{grid-column:1/-1}.modal-foot{align-items:flex-start;flex-direction:column}.modal-foot>div:last-child{display:flex;gap:8px;width:100%}.modal-foot button{flex:1}}
+</style>
 </head>
 <body>
-  <header class="topbar">
-    <div class="topbar-inner">
-      <a class="brand" href="#" aria-label="ONESIDE Legal">
-        <span class="brand-icon"><i class="fa-solid fa-scale-balanced"></i></span>
-        <span><span class="brand-name">ONESIDE</span><span class="brand-sub">LEGAL WORKSPACE</span></span>
-      </a>
-      <button id="btnOpenModal" class="btn btn-gold"><i class="fa-solid fa-plus"></i> Nuevo caso</button>
+<header>
+  <div class="brand">ONESIDE <span style="color:var(--gold)">LEGAL</span><small>LEGAL CASE MANAGEMENT</small></div>
+  <button class="gold" id="open">+ Nuevo caso</button>
+</header>
+
+<main>
+  <div class="eyebrow">Gestión jurídica</div>
+  <h1>Tu trabajo legal,<br>en un solo lugar.</h1>
+  <p class="intro">Organiza asuntos jurídicos, identifica los documentos requeridos y calcula honorarios desde un solo espacio de trabajo.</p>
+
+  <div class="section-head">
+    <h2>Casos registrados <span id="count" class="muted">(0)</span></h2>
+    <button class="secondary" id="export">Exportar respaldo</button>
+  </div>
+  <div id="caseList" class="cases"></div>
+  <div id="empty" class="empty hidden">
+    <h3>Aún no tienes casos registrados</h3>
+    <p class="muted">Crea tu primer asunto para comenzar a organizar tu trabajo.</p>
+    <button class="primary" id="emptyCreate">Crear primer caso</button>
+  </div>
+  <p class="muted">Los datos se almacenan localmente en este navegador. No necesitas configurar Firebase.</p>
+</main>
+
+<footer>
+  <span>ONESIDE Legal · Una solución de Marchena Consultores</span>
+  <span>Gestión jurídica independiente</span>
+</footer>
+
+<div id="overlay" class="overlay hidden">
+  <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-head">
+      <div><h2 id="modalTitle">Registrar nuevo caso</h2><small>Información del asunto y honorarios</small></div>
+      <button id="close" class="secondary" aria-label="Cerrar">✕</button>
     </div>
-  </header>
-
-  <main class="main">
-    <p class="eyebrow">ONESIDE · MARCHENA CONSULTORES</p>
-    <h1>Gestión de casos</h1>
-    <div class="rule"></div>
-    <p class="intro">Administra tus asuntos jurídicos, documentos requeridos y cotizaciones desde un solo lugar.</p>
-
-    <div class="section-head">
-      <h2>Casos registrados</h2>
-      <span id="connectionStatus" class="small-muted">Preparando aplicación…</span>
-    </div>
-
-    <section id="casesLoading" class="state" aria-live="polite">
-      <span class="spinner"></span><span style="font-size:13px;color:#687281">Conectando con el servicio…</span>
-      <p id="loadingDetail" class="connection-note">La carga puede tardar unos segundos.</p>
-    </section>
-
-    <section id="casesError" class="state hidden" aria-live="polite">
-      <div class="state-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
-      <h3>No pudimos cargar los casos</h3>
-      <p id="errorDetail">Comprueba la configuración y la conexión con Firebase.</p>
-      <button id="btnRetry" class="btn btn-primary"><i class="fa-solid fa-rotate-right"></i> Reintentar</button>
-      <p class="connection-note">Si estás publicando esta página fuera del entorno original, configura tu objeto firebaseConfig y habilita el método de autenticación que corresponda en Firebase Console.</p>
-    </section>
-
-    <section id="casesEmpty" class="state hidden">
-      <div class="state-icon"><i class="fa-regular fa-folder-open"></i></div>
-      <h3>Aún no hay casos registrados</h3>
-      <p>Crea tu primer caso para organizar la información jurídica, los documentos y la cotización correspondiente.</p>
-      <button id="btnEmptyCreate" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Crear primer caso</button>
-    </section>
-
-    <section id="casesList" class="cases hidden" aria-label="Lista de casos"></section>
-  </main>
-
-  <footer><div class="footer-inner">
-    <span><i class="fa-solid fa-scale-balanced" style="color:var(--gold)"></i> &nbsp; ONESIDE LEGAL</span>
-    <span>© 2026 ONESIDE Legal. Todos los derechos reservados.</span>
-    <span>Una solución de Marchena Consultores</span>
-  </div></footer>
-
-  <div id="createCaseModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <div class="modal">
-      <div class="modal-header">
-        <div><h2 id="modalTitle"><i class="fa-solid fa-file-circle-plus" style="color:var(--gold)"></i> &nbsp;Crear nuevo caso</h2><p>Información general y propuesta económica</p></div>
-        <button id="btnCloseModal" class="icon-button" aria-label="Cerrar"><i class="fa-solid fa-xmark"></i></button>
-      </div>
+    <form id="caseForm">
       <div class="modal-body">
-        <form id="caseForm">
-          <h3 class="form-section-title"><i class="fa-regular fa-rectangle-list"></i> Información del asunto</h3>
-          <div class="field">
-            <label for="caseName">Nombre del caso <span class="required">*</span></label>
-            <input id="caseName" class="control" required maxlength="180" placeholder="Ej. Revisión contractual — Cliente Pérez">
-          </div>
-          <div class="field">
-            <label for="caseDescription">Descripción del caso <span class="required">*</span></label>
-            <textarea id="caseDescription" class="control" required maxlength="3000" rows="3" placeholder="Describe brevemente el asunto y sus objetivos principales…"></textarea>
-          </div>
-          <div class="field">
-            <label for="caseDocument">Documento requerido <span class="required">*</span></label>
-            <input id="caseDocument" class="control" required maxlength="500" placeholder="Ej. Contrato, poder, certificado de existencia…">
-          </div>
-
-          <hr class="separator">
-          <h3 class="form-section-title"><i class="fa-solid fa-calculator"></i> Cotización inicial</h3>
-          <div class="quote-panel">
-            <div class="quote-entry">
-              <div class="field"><label for="itemName">Concepto</label><input id="itemName" class="control" maxlength="180" placeholder="Ej. Honorarios"></div>
-              <div class="field"><label for="itemValue">Valor (COP)</label><input id="itemValue" class="control" type="number" min="0" step="1" inputmode="numeric" placeholder="0"></div>
-              <button type="button" id="btnAddItem" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Agregar</button>
-            </div>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead><tr><th>Concepto</th><th class="right">Valor</th><th></th></tr></thead>
-              <tbody id="quoteItemsList">
-                <tr id="emptyItemsRow"><td colspan="3" style="text-align:center;color:#9299A3;padding:22px">Todavía no has agregado conceptos.</td></tr>
-              </tbody>
-            </table>
-          </div>
-          <label class="probono-option" for="proBonoCheck">
-            <input type="checkbox" id="proBonoCheck">
-            <span><strong>Marcar como caso pro bono</strong><small>El total a facturar será de $ 0 COP. Los conceptos agregados se conservarán como referencia.</small></span>
-          </label>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <div><div class="total-label">Total estimado</div><div id="totalDisplay" class="total-value">$ 0</div><span id="proBonoBadge" class="probono-badge hidden">Pro bono activo</span></div>
-        <div class="footer-actions">
-          <button type="button" id="btnCancelModal" class="btn btn-secondary">Cancelar</button>
-          <button type="button" id="btnSubmitCase" class="btn btn-primary"><i class="fa-solid fa-check"></i> Guardar caso</button>
+        <div class="field">
+          <label for="name">Nombre del caso *</label>
+          <input id="name" required maxlength="160" placeholder="Ej. Revisión de contrato comercial">
         </div>
+        <div class="field">
+          <label for="description">Descripción del asunto *</label>
+          <textarea id="description" required maxlength="3000" placeholder="Describe brevemente el asunto jurídico..."></textarea>
+        </div>
+        <div class="field">
+          <label for="document">Documento requerido *</label>
+          <input id="document" required maxlength="500" placeholder="Ej. Contrato, poder, certificado...">
+        </div>
+
+        <hr style="border:0;border-top:1px solid var(--line);margin:22px 0">
+        <h3 style="color:var(--navy);font-size:15px">Conceptos y honorarios</h3>
+        <div class="quote">
+          <div class="quote-row">
+            <div class="field">
+              <label for="itemName">Concepto</label>
+              <input id="itemName" placeholder="Ej. Estudio jurídico">
+            </div>
+            <div class="field">
+              <label for="itemValue">Valor (COP)</label>
+              <input id="itemValue" type="number" min="0" step="1000" placeholder="150000">
+            </div>
+            <button type="button" class="primary" id="addItem">Añadir</button>
+          </div>
+          <table>
+            <thead><tr><th>Concepto</th><th class="right">Valor</th><th></th></tr></thead>
+            <tbody id="quoteList"><tr id="quoteEmpty"><td colspan="3" class="muted">Aún no has añadido conceptos.</td></tr></tbody>
+          </table>
+        </div>
+
+        <label class="pro-option">
+          <input id="proBono" type="checkbox">
+          <span><strong>Asunto pro bono</strong><small>El caso se registrará sin cobro de honorarios.</small></span>
+        </label>
       </div>
-    </div>
-  </div>
+      <div class="modal-foot">
+        <div><div class="muted">Total estimado</div><div class="total" id="total">$ 0</div></div>
+        <div><button type="button" class="secondary" id="cancel">Cancelar</button> <button class="primary" id="save" type="submit">Guardar caso</button></div>
+      </div>
+    </form>
+  </section>
+</div>
 
-  <div id="alertModal" class="modal-backdrop hidden" role="alertdialog" aria-modal="true" aria-labelledby="alertTitle" aria-describedby="alertMessage">
-    <div class="alert-modal">
-      <div id="alertIcon" class="alert-icon"><i class="fa-solid fa-circle-info" style="color:var(--gold)"></i></div>
-      <h3 id="alertTitle">Aviso</h3>
-      <p id="alertMessage"></p>
-      <button id="btnAlertClose" class="btn btn-primary" style="width:100%">Entendido</button>
-    </div>
-  </div>
+<div id="notice" class="notice hidden" role="status"></div>
 
-  <script type="module">
-    /*
-      CONFIGURACIÓN:
-      - En el entorno original que inyecta __firebase_config, se usa esa configuración.
-      - Para GitHub Pages u otro hosting, pega la configuración web de tu proyecto Firebase
-        en FIREBASE_CONFIG. No publiques claves privadas ni credenciales de servicio.
-    */
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-    import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+<script>
+(() => {
+  "use strict";
+  const KEY = "oneside_legal_cases_v1";
+  const $ = id => document.getElementById(id);
+  let items = [];
+  let cases = [];
+  let noticeTimer;
 
-    const FIREBASE_CONFIG = null; // Sustituye null por el objeto de configuración web de Firebase si no hay configuración inyectada.
-    const APP_ID_FALLBACK = "oneside-legal-app";
-    const $ = (id) => document.getElementById(id);
+  const money = value => new Intl.NumberFormat("es-CO", {
+    style: "currency", currency: "COP", maximumFractionDigits: 0
+  }).format(Number(value) || 0);
 
-    const ui = {
-      loading: $("casesLoading"), loadingDetail: $("loadingDetail"), error: $("casesError"),
-      errorDetail: $("errorDetail"), empty: $("casesEmpty"), list: $("casesList"),
-      status: $("connectionStatus"), modal: $("createCaseModal"), alert: $("alertModal"),
-      alertTitle: $("alertTitle"), alertMessage: $("alertMessage"), alertIcon: $("alertIcon"),
-      form: $("caseForm"), name: $("caseName"), description: $("caseDescription"),
-      document: $("caseDocument"), itemName: $("itemName"), itemValue: $("itemValue"),
-      quoteList: $("quoteItemsList"), emptyItems: $("emptyItemsRow"), proBono: $("proBonoCheck"),
-      total: $("totalDisplay"), proBonoBadge: $("proBonoBadge"), submit: $("btnSubmitCase")
+  function notify(message, error = false) {
+    const box = $("notice");
+    box.textContent = message;
+    box.classList.toggle("error", error);
+    box.classList.remove("hidden");
+    clearTimeout(noticeTimer);
+    noticeTimer = setTimeout(() => box.classList.add("hidden"), 3500);
+  }
+
+  function readCases() {
+    const raw = localStorage.getItem(KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) throw new Error("El almacenamiento tiene un formato inválido.");
+    return parsed;
+  }
+
+  function persist(next) {
+    localStorage.setItem(KEY, JSON.stringify(next));
+    cases = next;
+  }
+
+  function safeText(value) {
+    return String(value ?? "").replace(/[&<>"']/g, c => ({
+      "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
+    })[c]);
+  }
+
+  function render() {
+    $("count").textContent = `(${cases.length})`;
+    $("caseList").replaceChildren();
+    $("empty").classList.toggle("hidden", cases.length !== 0);
+
+    for (const item of cases) {
+      const card = document.createElement("article");
+      card.className = "card";
+      const title = safeText(item.name || "Caso sin nombre");
+      const description = safeText(item.description || "Sin descripción.");
+      const documentName = safeText(item.document || "No especificado");
+      const pro = Boolean(item.proBono);
+      const total = pro ? 0 : Number(item.total) || 0;
+
+      card.innerHTML = `
+        <div class="card-body">
+          <div class="label">Asunto jurídico</div>
+          <h3>${title}</h3>
+          <span class="badge ${pro ? "pro" : ""}">${pro ? "Pro bono" : "Regular"}</span>
+          <p>${description}</p>
+          <div class="document"><strong>Documento requerido</strong><br>${documentName}</div>
+          <p class="muted">Creado: ${safeText(new Date(item.createdAt).toLocaleDateString("es-CO"))}</p>
+        </div>
+        <div class="card-foot">
+          <strong>Total estimado</strong>
+          <strong style="color:${pro ? "var(--green)" : "var(--navy)"}">${money(total)}</strong>
+        </div>
+        <div class="card-foot">
+          <button class="secondary" data-action="details" data-id="${safeText(item.id)}">Ver detalles</button>
+          <button class="secondary" data-action="delete" data-id="${safeText(item.id)}">Eliminar</button>
+        </div>`;
+      $("caseList").appendChild(card);
+    }
+  }
+
+  function updateQuote() {
+    const body = $("quoteList");
+    body.replaceChildren();
+    if (!items.length) {
+      const row = document.createElement("tr");
+      row.innerHTML = '<td colspan="3" class="muted">Aún no has añadido conceptos.</td>';
+      body.appendChild(row);
+    }
+
+    items.forEach((item, index) => {
+      const row = document.createElement("tr");
+      row.innerHTML = `<td>${safeText(item.name)}</td>
+        <td class="right">${money(item.value)}</td>
+        <td class="right"><button type="button" class="remove" data-remove="${index}" aria-label="Eliminar concepto">✕</button></td>`;
+      body.appendChild(row);
+    });
+
+    const sum = items.reduce((total, item) => total + item.value, 0);
+    $("total").textContent = money($("proBono").checked ? 0 : sum);
+    $("total").style.color = $("proBono").checked ? "var(--green)" : "var(--navy)";
+  }
+
+  function openModal() {
+    $("caseForm").reset();
+    items = [];
+    updateQuote();
+    $("overlay").classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+    setTimeout(() => $("name").focus(), 50);
+  }
+
+  function closeModal() {
+    $("overlay").classList.add("hidden");
+    document.body.style.overflow = "";
+  }
+
+  $("open").addEventListener("click", openModal);
+  $("emptyCreate").addEventListener("click", openModal);
+  $("close").addEventListener("click", closeModal);
+  $("cancel").addEventListener("click", closeModal);
+  $("overlay").addEventListener("click", e => {
+    if (e.target === $("overlay")) closeModal();
+  });
+
+  $("addItem").addEventListener("click", () => {
+    const name = $("itemName").value.trim();
+    const raw = $("itemValue").value.trim();
+    const value = Number(raw);
+    if (!name) return notify("Escribe el nombre del concepto.", true);
+    if (raw === "" || !Number.isFinite(value) || value < 0) {
+      return notify("Ingresa un valor válido igual o superior a cero.", true);
+    }
+    items.push({name, value});
+    $("itemName").value = "";
+    $("itemValue").value = "";
+    updateQuote();
+    $("itemName").focus();
+  });
+
+  $("quoteList").addEventListener("click", e => {
+    const button = e.target.closest("[data-remove]");
+    if (!button) return;
+    items.splice(Number(button.dataset.remove), 1);
+    updateQuote();
+  });
+
+  $("proBono").addEventListener("change", updateQuote);
+  $("itemName").addEventListener("keydown", e => {
+    if (e.key === "Enter") { e.preventDefault(); $("itemValue").focus(); }
+  });
+  $("itemValue").addEventListener("keydown", e => {
+    if (e.key === "Enter") { e.preventDefault(); $("addItem").click(); }
+  });
+
+  $("caseForm").addEventListener("submit", e => {
+    e.preventDefault();
+    if (!$("caseForm").reportValidity()) return;
+
+    const name = $("name").value.trim();
+    const description = $("description").value.trim();
+    const documentName = $("document").value.trim();
+    if (!name || !description || !documentName) {
+      return notify("Completa todos los campos obligatorios.", true);
+    }
+
+    const proBono = $("proBono").checked;
+    const total = proBono ? 0 : items.reduce((sum, item) => sum + item.value, 0);
+    const record = {
+      id: (crypto.randomUUID ? crypto.randomUUID() : String(Date.now())),
+      name, description, document: documentName,
+      items: items.map(item => ({...item})),
+      proBono, total, createdAt: new Date().toISOString()
     };
 
-    let db = null;
-    let auth = null;
-    let userId = null;
-    let appId = APP_ID_FALLBACK;
-    let unsubscribeCases = null;
-    let quoteItems = [];
-    let isProBono = false;
-    let alertTimer = null;
+    const button = $("save");
+    button.disabled = true;
+    try {
+      persist([record, ...cases]);
+      render();
+      closeModal();
+      notify("Caso guardado correctamente.");
+    } catch (error) {
+      console.error(error);
+      notify("No se pudo guardar. Comprueba que el navegador permita almacenamiento local.", true);
+    } finally {
+      button.disabled = false;
+    }
+  });
 
-    const formatCurrency = (value) => new Intl.NumberFormat("es-CO", {
-      style: "currency", currency: "COP", maximumFractionDigits: 0
-    }).format(Number(value) || 0);
+  $("caseList").addEventListener("click", e => {
+    const button = e.target.closest("button[data-action]");
+    if (!button) return;
+    const item = cases.find(record => record.id === button.dataset.id);
+    if (!item) return;
 
-    function setMainState(state) {
-      ui.loading.classList.toggle("hidden", state !== "loading");
-      ui.error.classList.toggle("hidden", state !== "error");
-      ui.empty.classList.toggle("hidden", state !== "empty");
-      ui.list.classList.toggle("hidden", state !== "list");
-      ui.status.textContent = ({
-        loading: "Conectando…", error: "Conexión pendiente",
-        empty: "Sin casos registrados", list: "Sincronizado"
-      })[state] || "";
+    if (button.dataset.action === "details") {
+      const detail = [
+        `Caso: ${item.name}`,
+        `Descripción: ${item.description}`,
+        `Documento requerido: ${item.document}`,
+        `Tipo: ${item.proBono ? "Pro bono" : "Regular"}`,
+        "Conceptos:",
+        ...(item.items || []).map(i => `- ${i.name}: ${money(i.value)}`),
+        `Total: ${money(item.total)}`
+      ].join("\n");
+      alert(detail);
     }
 
-    function showAlert(title, message, type = "info") {
-      ui.alertTitle.textContent = title;
-      ui.alertMessage.textContent = message;
-      const icon = type === "error" ? "fa-circle-exclamation" :
-                   type === "success" ? "fa-circle-check" : "fa-circle-info";
-      const color = type === "error" ? "#B42318" : type === "success" ? "#286644" : "#A78950";
-      ui.alertIcon.innerHTML = `<i class="fa-solid ${icon}" style="color:${color}"></i>`;
-      ui.alert.classList.remove("hidden");
-      clearTimeout(alertTimer);
-    }
-
-    function closeAlert() {
-      ui.alert.classList.add("hidden");
-    }
-
-    function openModal() {
-      resetForm();
-      ui.modal.classList.remove("hidden");
-      document.body.style.overflow = "hidden";
-      setTimeout(() => ui.name.focus(), 50);
-    }
-
-    function closeModal() {
-      ui.modal.classList.add("hidden");
-      document.body.style.overflow = "";
-    }
-
-    function resetForm() {
-      ui.form.reset();
-      quoteItems = [];
-      isProBono = false;
-      renderQuoteItems();
-      updateTotal();
-    }
-
-    function renderQuoteItems() {
-      ui.quoteList.querySelectorAll("tr:not(#emptyItemsRow)").forEach(row => row.remove());
-      ui.emptyItems.classList.toggle("hidden", quoteItems.length > 0);
-
-      for (const item of quoteItems) {
-        const row = document.createElement("tr");
-        if (isProBono) row.style.opacity = ".55";
-
-        const nameCell = document.createElement("td");
-        nameCell.textContent = item.name;
-        if (isProBono) nameCell.style.textDecoration = "line-through";
-
-        const valueCell = document.createElement("td");
-        valueCell.className = "right";
-        valueCell.textContent = formatCurrency(item.value);
-        if (isProBono) valueCell.style.textDecoration = "line-through";
-
-        const actionCell = document.createElement("td");
-        const remove = document.createElement("button");
-        remove.type = "button";
-        remove.className = "remove-item";
-        remove.setAttribute("aria-label", "Eliminar concepto");
-        remove.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
-        remove.addEventListener("click", () => {
-          quoteItems = quoteItems.filter(candidate => candidate.id !== item.id);
-          renderQuoteItems();
-          updateTotal();
-        });
-        actionCell.appendChild(remove);
-        row.append(nameCell, valueCell, actionCell);
-        ui.quoteList.appendChild(row);
-      }
-    }
-
-    function updateTotal() {
-      const total = isProBono ? 0 : quoteItems.reduce((sum, item) => sum + item.value, 0);
-      ui.total.textContent = formatCurrency(total);
-      ui.total.style.color = isProBono ? "#286644" : "var(--navy)";
-      ui.proBonoBadge.classList.toggle("hidden", !isProBono);
-      renderQuoteItems();
-    }
-
-    function addQuoteItem() {
-      const name = ui.itemName.value.trim();
-      const rawValue = ui.itemValue.value.trim();
-      const value = Number(rawValue);
-      if (!name) {
-        showAlert("Falta el concepto", "Escribe el nombre del concepto antes de agregarlo.", "error");
-        ui.itemName.focus();
-        return;
-      }
-      if (rawValue === "" || !Number.isFinite(value) || value < 0) {
-        showAlert("Valor inválido", "Ingresa un valor numérico igual o superior a cero.", "error");
-        ui.itemValue.focus();
-        return;
-      }
-      quoteItems.push({ id: `${Date.now()}-${Math.random()}`, name, value });
-      ui.itemName.value = "";
-      ui.itemValue.value = "";
-      renderQuoteItems();
-      updateTotal();
-      ui.itemName.focus();
-    }
-
-    function escapeHTML(value = "") {
-      return String(value).replace(/[&<>"']/g, character => ({
-        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
-      })[character]);
-    }
-
-    function renderCases(cases) {
-      ui.list.replaceChildren();
-      for (const item of cases) {
-        const name = escapeHTML(item.name || "Caso sin nombre");
-        const description = String(item.description || "");
-        const shortDescription = escapeHTML(description.length > 140 ? description.slice(0, 140) + "…" : description);
-        const requiredDocument = escapeHTML(item.requiredDocument || "No especificado");
-        const proBono = Boolean(item.isProBono);
-        const total = proBono ? "$ 0 COP · Pro bono" : escapeHTML(formatCurrency(item.total));
-
-        const card = document.createElement("article");
-        card.className = "case-card";
-        card.innerHTML = `
-          <div class="card-body">
-            <p class="card-overline">Asunto jurídico</p>
-            <div class="card-title-row">
-              <h3 class="card-title">${name}</h3>
-              <span class="badge ${proBono ? "badge-probono" : "badge-regular"}">${proBono ? "Pro bono" : "Regular"}</span>
-            </div>
-            <p class="card-description">${shortDescription || "Sin descripción."}</p>
-            <div class="document-box">
-              <span class="document-icon"><i class="fa-regular fa-file-lines"></i></span>
-              <div><div class="document-label">Documento requerido</div><div class="document-value">${requiredDocument}</div></div>
-            </div>
-          </div>
-          <div class="card-footer">
-            <span>Total estimado</span>
-            <span class="card-total" style="${proBono ? "color:#286644" : ""}">${total}</span>
-          </div>`;
-        ui.list.appendChild(card);
-      }
-    }
-
-    function watchCases() {
-      if (!db || !userId) throw new Error("Firebase no está inicializado o falta la sesión.");
-      if (unsubscribeCases) unsubscribeCases();
-
-      const casesRef = collection(db, "artifacts", appId, "users", userId, "cases");
-      unsubscribeCases = onSnapshot(casesRef, (snapshot) => {
-        const cases = [];
-        snapshot.forEach(docSnap => cases.push({ id: docSnap.id, ...docSnap.data() }));
-        cases.sort((a, b) => {
-          const ta = a.createdAt?.toMillis ? a.createdAt.toMillis() : 0;
-          const tb = b.createdAt?.toMillis ? b.createdAt.toMillis() : 0;
-          return tb - ta;
-        });
-        if (cases.length === 0) {
-          setMainState("empty");
-        } else {
-          renderCases(cases);
-          setMainState("list");
-        }
-      }, (error) => {
-        console.error("Firestore listener error:", error);
-        ui.errorDetail.textContent = error.code === "permission-denied"
-          ? "Firebase rechazó el acceso. Revisa las reglas de Firestore y que la ruta de datos coincida con tu configuración."
-          : "No se pudo leer Firestore. Comprueba la conexión y la configuración del proyecto.";
-        setMainState("error");
-      });
-    }
-
-    async function initialize() {
-      setMainState("loading");
-      ui.loadingDetail.textContent = "Verificando la configuración y autenticación…";
+    if (button.dataset.action === "delete") {
+      if (!confirm(`¿Seguro que deseas eliminar el caso "${item.name}"?`)) return;
       try {
-        let config = FIREBASE_CONFIG;
-        if (typeof __firebase_config !== "undefined" && __firebase_config) {
-          config = JSON.parse(__firebase_config);
-        }
-        if (typeof __app_id !== "undefined" && __app_id) appId = __app_id;
-
-        if (!config || !config.apiKey || !config.projectId || !config.appId) {
-          throw new Error("Falta la configuración web de Firebase. Añádela en FIREBASE_CONFIG al inicio del script.");
-        }
-
-        const app = initializeApp(config);
-        auth = getAuth(app);
-        db = getFirestore(app);
-
-        const authToken = typeof __initial_auth_token !== "undefined" ? __initial_auth_token : null;
-        if (authToken) {
-          await signInWithCustomToken(auth, authToken);
-        } else {
-          await signInAnonymously(auth);
-        }
-
-        userId = auth.currentUser?.uid;
-        if (!userId) throw new Error("Firebase no devolvió un usuario autenticado.");
-
-        watchCases();
+        persist(cases.filter(record => record.id !== item.id));
+        render();
+        notify("Caso eliminado.");
       } catch (error) {
-        console.error("Initialization error:", error);
-        ui.errorDetail.textContent = error.message || "No fue posible inicializar Firebase.";
-        setMainState("error");
+        notify("No se pudo actualizar el almacenamiento.", true);
       }
     }
+  });
 
-    async function submitCase() {
-      if (!db || !userId) {
-        showAlert("Sin conexión", "No hay una sesión válida de Firebase. Reintenta la conexión antes de guardar.", "error");
-        return;
-      }
-      if (!ui.form.reportValidity()) return;
+  $("export").addEventListener("click", () => {
+    try {
+      const blob = new Blob([JSON.stringify(cases, null, 2)], {type:"application/json;charset=utf-8"});
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "oneside-legal-respaldo.json";
+      link.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      notify("Respaldo preparado.");
+    } catch (error) {
+      notify("No se pudo exportar el respaldo.", true);
+    }
+  });
 
-      const name = ui.name.value.trim();
-      const description = ui.description.value.trim();
-      const requiredDocument = ui.document.value.trim();
-      if (!name || !description || !requiredDocument) {
-        showAlert("Campos obligatorios", "Completa el nombre, la descripción y el documento requerido.", "error");
-        return;
-      }
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && !$("overlay").classList.contains("hidden")) closeModal();
+  });
 
-      const total = isProBono ? 0 : quoteItems.reduce((sum, item) => sum + item.value, 0);
-      const payload = {
-        name, description, requiredDocument,
-        items: quoteItems.map(({ name: itemName, value }) => ({ name: itemName, value })),
-        isProBono, total, createdAt: serverTimestamp()
-      };
-
-      const originalText = ui.submit.innerHTML;
-      ui.submit.disabled = true;
-      ui.submit.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Guardando…';
+  try {
+    cases = readCases().sort((a,b) => String(b.createdAt || "").localeCompare(String(a.createdAt || "")));
+    render();
+  } catch (error) {
+    console.error(error);
+    $("empty").classList.remove("hidden");
+    $("empty").innerHTML = `
+      <h3>No se pudieron leer los casos</h3>
+      <p class="muted">El almacenamiento local está bloqueado o contiene datos inválidos. Prueba con una ventana normal del navegador.</p>
+      <button class="secondary" id="resetStorage">Iniciar almacenamiento nuevo</button>`;
+    $("resetStorage").addEventListener("click", () => {
       try {
-        await addDoc(collection(db, "artifacts", appId, "users", userId, "cases"), payload);
-        closeModal();
-        showAlert("Caso guardado", "El caso se guardó correctamente.", "success");
-      } catch (error) {
-        console.error("Save error:", error);
-        showAlert("No se pudo guardar", error.code === "permission-denied"
-          ? "Firestore rechazó la operación. Revisa las reglas de seguridad."
-          : "Ocurrió un error al guardar. Comprueba la conexión e inténtalo de nuevo.", "error");
-      } finally {
-        ui.submit.disabled = false;
-        ui.submit.innerHTML = originalText;
-      }
-    }
-
-    $("btnOpenModal").addEventListener("click", openModal);
-    $("btnEmptyCreate").addEventListener("click", openModal);
-    $("btnCloseModal").addEventListener("click", closeModal);
-    $("btnCancelModal").addEventListener("click", closeModal);
-    $("btnAlertClose").addEventListener("click", () => ui.alert.classList.add("hidden"));
-    $("btnAddItem").addEventListener("click", addQuoteItem);
-    $("btnSubmitCase").addEventListener("click", submitCase);
-    $("btnRetry").addEventListener("click", initialize);
-    ui.proBono.addEventListener("change", event => {
-      isProBono = event.target.checked;
-      updateTotal();
-    });
-    ui.itemValue.addEventListener("keydown", event => {
-      if (event.key === "Enter") { event.preventDefault(); addQuoteItem(); }
-    });
-    ui.itemName.addEventListener("keydown", event => {
-      if (event.key === "Enter") { event.preventDefault(); ui.itemValue.focus(); }
-    });
-    ui.modal.addEventListener("click", event => {
-      if (event.target === ui.modal) closeModal();
-    });
-    ui.alert.addEventListener("click", event => {
-      if (event.target === ui.alert) ui.alert.classList.add("hidden");
-    });
-    document.addEventListener("keydown", event => {
-      if (event.key === "Escape") {
-        if (!ui.alert.classList.contains("hidden")) ui.alert.classList.add("hidden");
-        else if (!ui.modal.classList.contains("hidden")) closeModal();
+        localStorage.removeItem(KEY);
+        cases = [];
+        render();
+        notify("Almacenamiento reiniciado.");
+      } catch (e) {
+        notify("El navegador no permite usar almacenamiento local.", true);
       }
     });
-
-    initialize();
-  </script>
+  }
+})();
+</script>
 </body>
 </html>
