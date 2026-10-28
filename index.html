@@ -4,413 +4,652 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#0B1829">
-<title>ONESIDE Legal | Gestión de casos</title>
+<title>ONESIDE Legal | Gestión jurídica</title>
 <style>
-:root{--navy:#0b1829;--navy2:#142a43;--gold:#c6a66b;--bg:#f6f5f1;--text:#202b39;--muted:#77808d;--line:#e7e5df;--green:#286644;--red:#b42318}
+:root{--navy:#0B1829;--navy2:#142A43;--gold:#C6A66B;--bg:#F6F5F1;--text:#202B39;--muted:#77808D;--line:#E7E5DF;--green:#286644;--red:#B42318}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font:15px/1.6 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.55 Arial,sans-serif}
 button,input,textarea{font:inherit}
-button{cursor:pointer}
-header{background:var(--navy);color:white;border-bottom:3px solid var(--gold);padding:18px 5%;display:flex;align-items:center;justify-content:space-between;gap:16px}
-.brand{font-size:19px;font-weight:800;letter-spacing:3px}
-.brand small{display:block;color:#c6a66b;font-size:10px;letter-spacing:2px}
-main{width:min(1100px,92%);margin:42px auto 70px}
-.eyebrow{color:var(--muted);font-size:11px;letter-spacing:2px;text-transform:uppercase}
-h1{color:var(--navy);font-size:clamp(28px,5vw,40px);line-height:1.2;margin:8px 0}
-.intro{color:var(--muted);max-width:650px}
-button{border:0;border-radius:8px;padding:11px 16px;font-weight:650}
+button{cursor:pointer;border:0;border-radius:7px;padding:10px 14px;font-weight:bold}
+header{background:var(--navy);color:white;padding:20px 5%;display:flex;justify-content:space-between;align-items:center;gap:15px;border-bottom:3px solid var(--gold)}
+.brand{font-weight:bold;letter-spacing:3px;font-size:19px}
+.brand span{color:var(--gold)}
+.brand small{display:block;font-size:9px;color:var(--gold);letter-spacing:2px}
+main{max-width:1150px;width:92%;margin:35px auto 65px}
+h1,h2,h3{color:var(--navy)}
+h1{font-size:clamp(28px,5vw,39px);line-height:1.15;margin:8px 0}
+h2{font-size:18px}
+p{overflow-wrap:anywhere}
+.muted{color:var(--muted);font-size:13px}
+.eyebrow{font-size:11px;letter-spacing:2px;color:var(--muted);text-transform:uppercase}
 .primary{background:var(--navy);color:white}
 .primary:hover{background:var(--navy2)}
 .gold{background:var(--gold);color:var(--navy)}
-.secondary{background:white;border:1px solid var(--line);color:var(--navy)}
-.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:32px 0 16px}
-.section-head h2{font-size:17px;color:var(--navy)}
-.cases{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
-.card{background:white;border:1px solid var(--line);border-radius:13px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 5px 20px #0b18290a}
-.card-body{padding:21px;flex:1}
-.label{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted)}
-.card h3{font-size:17px;color:var(--navy);overflow-wrap:anywhere}
-.card p{white-space:pre-line;overflow-wrap:anywhere}
-.badge{display:inline-block;padding:4px 8px;border-radius:5px;background:#e9edf3;color:var(--navy);font-size:11px}
+.secondary{background:white;color:var(--navy);border:1px solid var(--line)}
+.danger{color:var(--red);background:white;border:1px solid var(--line)}
+.summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px;margin:25px 0}
+.metric{background:white;border:1px solid var(--line);border-radius:12px;padding:20px;min-width:0}
+.metric .label{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:1px}
+.metric .value{font-size:clamp(19px,3vw,27px);font-weight:bold;color:var(--navy);margin-top:8px;overflow-wrap:anywhere}
+.metric.pro .value{color:var(--green)}
+.metric p{font-size:12px;color:var(--muted);margin-bottom:0}
+.sectionhead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:30px 0 15px}
+.cases{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.card{background:white;border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.cardbody{padding:20px;flex:1}
+.card h3{font-size:17px;overflow-wrap:anywhere}
+.card p{white-space:pre-line}
+.badge{display:inline-block;background:#e9edf3;color:var(--navy);padding:4px 8px;border-radius:5px;font-size:11px}
 .badge.pro{background:#e9f3ec;color:var(--green)}
-.document{padding:12px;background:#f8f7f4;border-radius:8px;font-size:12px;overflow-wrap:anywhere}
-.card-foot{padding:15px 21px;background:#faf9f6;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;font-size:12px}
-.empty{padding:45px 20px;text-align:center;background:white;border:1px solid var(--line);border-radius:14px}
-.empty h3{color:var(--navy)}
-.muted{color:var(--muted);font-size:13px}
-footer{background:var(--navy);color:#d1d7e0;padding:22px 5%;font-size:12px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
-.overlay{position:fixed;inset:0;background:#08121fcc;display:flex;align-items:center;justify-content:center;padding:14px;z-index:5}
+.cardfoot{padding:13px 16px;background:#faf9f6;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.cardactions{display:flex;gap:7px;flex-wrap:wrap}
+.cardactions button{font-size:12px;padding:8px 10px}
+.empty{padding:40px 20px;text-align:center;background:white;border:1px solid var(--line);border-radius:12px}
+.overlay{position:fixed;inset:0;background:#08121fcc;z-index:10;display:flex;align-items:center;justify-content:center;padding:12px}
 .hidden{display:none!important}
-.modal{background:white;border-radius:15px;width:min(680px,100%);max-height:94vh;overflow:auto}
-.modal-head{background:var(--navy);color:white;border-bottom:3px solid var(--gold);padding:19px 23px;display:flex;justify-content:space-between;align-items:center}
-.modal-head h2{margin:0;font-size:18px}
-.modal-body{padding:22px}
+.modal{background:white;border-radius:13px;width:min(720px,100%);max-height:95vh;overflow:auto}
+.modalhead{background:var(--navy);color:white;padding:18px 22px;border-bottom:3px solid var(--gold);display:flex;justify-content:space-between;align-items:center}
+.modalhead h2{color:white;margin:0;font-size:18px}
+.modalbody{padding:22px}
 .field{margin-bottom:15px}
-.field label{display:block;font-size:12px;font-weight:700;margin-bottom:6px}
-input:not([type=checkbox]),textarea{width:100%;padding:11px 12px;border:1px solid #dcdedc;border-radius:8px;background:white;color:var(--text)}
-textarea{min-height:85px;resize:vertical}
-input:focus,textarea:focus{outline:2px solid #c6a66b88;border-color:var(--gold)}
-.quote{padding:15px;background:#f8f7f4;border:1px solid var(--line);border-radius:10px;margin:18px 0}
-.quote-row{display:grid;grid-template-columns:minmax(0,1fr) 145px auto;gap:9px;align-items:end}
-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:12px}
-td,th{text-align:left;padding:9px;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
-th{font-size:10px;color:var(--muted);text-transform:uppercase}
+.field label{display:block;font-size:12px;font-weight:bold;margin-bottom:6px}
+input:not([type=checkbox]),textarea{width:100%;padding:11px;border:1px solid #d8dce0;border-radius:7px;background:white;color:var(--text)}
+textarea{min-height:90px;resize:vertical}
+input:focus,textarea:focus{outline:2px solid #c6a66b77;border-color:var(--gold)}
+.quote{padding:15px;background:#f8f7f4;border:1px solid var(--line);border-radius:10px;margin:20px 0}
+.itemrow{display:grid;grid-template-columns:minmax(0,1fr) 145px auto;gap:8px;align-items:end}
+table{width:100%;border-collapse:collapse;font-size:13px;margin-top:12px}
+td,th{text-align:left;padding:9px 6px;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
+th{font-size:10px;text-transform:uppercase;color:var(--muted)}
 .right{text-align:right;white-space:nowrap}
-.remove{background:transparent;color:var(--red);padding:4px}
-.pro-option{display:flex;gap:10px;padding:13px;background:#f1f3f6;border-radius:9px;font-size:13px}
-.pro-option input{margin-top:5px}
-.pro-option small{display:block;color:var(--muted)}
-.modal-foot{padding:17px 22px;background:#faf9f6;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:12px}
-.total{font-size:23px;font-weight:800;color:var(--navy)}
-.notice{position:fixed;right:20px;bottom:20px;z-index:10;background:var(--navy);color:white;padding:14px 18px;border-radius:10px;box-shadow:0 8px 30px #0002;max-width:calc(100% - 40px)}
+.remove{background:none;color:var(--red);padding:3px}
+.checkrow{display:flex;align-items:flex-start;gap:10px;background:#f0f3f6;padding:13px;border-radius:8px}
+.checkrow input{margin-top:5px}
+.checkrow small{display:block;color:var(--muted)}
+.futurebox{margin-top:14px;padding:15px;background:#edf5ef;border:1px solid #d4e5d8;border-radius:8px}
+.modalfoot{padding:16px 22px;background:#faf9f6;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:12px}
+.total{font-size:23px;font-weight:bold;color:var(--navy)}
+.notice{position:fixed;right:20px;bottom:20px;z-index:20;background:var(--navy);color:white;padding:14px 18px;border-radius:9px;max-width:calc(100% - 40px)}
 .notice.error{background:var(--red)}
+footer{background:var(--navy);color:#d1d7e0;padding:22px 5%;font-size:12px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 @media(max-width:850px){.cases{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:580px){header{padding:15px 4%}.brand{font-size:16px}main{margin-top:28px}.cases{grid-template-columns:1fr}.section-head{align-items:flex-start}.quote-row{grid-template-columns:1fr 110px}.quote-row button{grid-column:1/-1}.modal-foot{align-items:flex-start;flex-direction:column}.modal-foot>div:last-child{display:flex;gap:8px;width:100%}.modal-foot button{flex:1}}
+@media(max-width:580px){.summary{grid-template-columns:1fr}.cases{grid-template-columns:1fr}.itemrow{grid-template-columns:1fr 110px}.itemrow button{grid-column:1/-1}.modalfoot{align-items:flex-start;flex-direction:column}.modalfoot>div:last-child{display:flex;width:100%;gap:8px}.modalfoot button{flex:1}}
 </style>
 </head>
 <body>
 <header>
-  <div class="brand">ONESIDE <span style="color:var(--gold)">LEGAL</span><small>LEGAL CASE MANAGEMENT</small></div>
-  <button class="gold" id="open">+ Nuevo caso</button>
+  <div class="brand">ONESIDE <span>LEGAL</span><small>MARCHENA CONSULTORES</small></div>
+  <button class="gold" id="newCase">+ Crear caso</button>
 </header>
 
 <main>
-  <div class="eyebrow">Gestión jurídica</div>
-  <h1>Tu trabajo legal,<br>en un solo lugar.</h1>
-  <p class="intro">Organiza asuntos jurídicos, identifica los documentos requeridos y calcula honorarios desde un solo espacio de trabajo.</p>
+  <div class="eyebrow">Panel de control</div>
+  <h1>Gestión de casos jurídicos</h1>
+  <p class="muted">Administra tus asuntos, cotizaciones e ingresos estimados desde un solo lugar.</p>
 
-  <div class="section-head">
-    <h2>Casos registrados <span id="count" class="muted">(0)</span></h2>
-    <button class="secondary" id="export">Exportar respaldo</button>
+  <div class="summary">
+    <div class="metric">
+      <div class="label">Por facturar · Pago inmediato</div>
+      <div class="value" id="immediateTotal">$ 0</div>
+      <p id="immediateCount">0 casos regulares</p>
+    </div>
+    <div class="metric pro">
+      <div class="label">Ingresos futuros · Pro bono</div>
+      <div class="value" id="futureTotal">$ 0</div>
+      <p id="futureCount">0 casos pro bono</p>
+    </div>
+    <div class="metric">
+      <div class="label">Total potencial</div>
+      <div class="value" id="grandTotal">$ 0</div>
+      <p>Pago inmediato + ingresos futuros estimados</p>
+    </div>
+  </div>
+
+  <div class="sectionhead">
+    <h2>Casos registrados <span id="caseCount" class="muted">(0)</span></h2>
+    <button class="secondary" id="exportBackup">Exportar respaldo</button>
   </div>
   <div id="caseList" class="cases"></div>
   <div id="empty" class="empty hidden">
-    <h3>Aún no tienes casos registrados</h3>
-    <p class="muted">Crea tu primer asunto para comenzar a organizar tu trabajo.</p>
+    <h3>No hay casos registrados</h3>
+    <p class="muted">Crea tu primer caso para comenzar.</p>
     <button class="primary" id="emptyCreate">Crear primer caso</button>
   </div>
-  <p class="muted">Los datos se almacenan localmente en este navegador. No necesitas configurar Firebase.</p>
+  <p class="muted">Los valores son estimaciones de control interno. Registra los pagos recibidos o actualiza los casos para reflejar los saldos pendientes.</p>
 </main>
 
 <footer>
-  <span>ONESIDE Legal · Una solución de Marchena Consultores</span>
+  <span>ONESIDE Legal · Marchena Consultores</span>
   <span>Gestión jurídica independiente</span>
 </footer>
 
 <div id="overlay" class="overlay hidden">
   <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <div class="modal-head">
-      <div><h2 id="modalTitle">Registrar nuevo caso</h2><small>Información del asunto y honorarios</small></div>
-      <button id="close" class="secondary" aria-label="Cerrar">✕</button>
+    <div class="modalhead">
+      <div><h2 id="modalTitle">Crear caso y cotización</h2><small>Información del asunto y honorarios</small></div>
+      <button type="button" id="closeModal" class="secondary">✕</button>
     </div>
     <form id="caseForm">
-      <div class="modal-body">
+      <div class="modalbody">
         <div class="field">
-          <label for="name">Nombre del caso *</label>
-          <input id="name" required maxlength="160" placeholder="Ej. Revisión de contrato comercial">
+          <label for="caseName">Nombre del caso *</label>
+          <input id="caseName" maxlength="180" required placeholder="Ej. Caso Familia/UARIV">
         </div>
         <div class="field">
-          <label for="description">Descripción del asunto *</label>
-          <textarea id="description" required maxlength="3000" placeholder="Describe brevemente el asunto jurídico..."></textarea>
+          <label for="description">Descripción del caso *</label>
+          <textarea id="description" maxlength="6000" required placeholder="Describe los antecedentes y el problema jurídico..."></textarea>
         </div>
         <div class="field">
-          <label for="document">Documento requerido *</label>
-          <input id="document" required maxlength="500" placeholder="Ej. Contrato, poder, certificado...">
+          <label for="documents">Documentos o actuaciones requeridas *</label>
+          <textarea id="documents" maxlength="2000" required placeholder="Ej. Derecho de petición inicialmente, tutela"></textarea>
         </div>
 
-        <hr style="border:0;border-top:1px solid var(--line);margin:22px 0">
-        <h3 style="color:var(--navy);font-size:15px">Conceptos y honorarios</h3>
         <div class="quote">
-          <div class="quote-row">
+          <h3 style="margin-top:0;font-size:15px">Conceptos de la cotización</h3>
+          <div class="itemrow">
             <div class="field">
               <label for="itemName">Concepto</label>
-              <input id="itemName" placeholder="Ej. Estudio jurídico">
+              <input id="itemName" placeholder="Ej. Análisis de pruebas">
             </div>
             <div class="field">
-              <label for="itemValue">Valor (COP)</label>
-              <input id="itemValue" type="number" min="0" step="1000" placeholder="150000">
+              <label for="itemValue">Valor COP</label>
+              <input id="itemValue" type="number" min="0" step="1000" placeholder="100000">
             </div>
             <button type="button" class="primary" id="addItem">Añadir</button>
           </div>
           <table>
             <thead><tr><th>Concepto</th><th class="right">Valor</th><th></th></tr></thead>
-            <tbody id="quoteList"><tr id="quoteEmpty"><td colspan="3" class="muted">Aún no has añadido conceptos.</td></tr></tbody>
+            <tbody id="itemList"></tbody>
           </table>
+          <p class="muted">Total de cotización: <strong id="quoteTotal">$ 0</strong></p>
         </div>
 
-        <label class="pro-option">
-          <input id="proBono" type="checkbox">
-          <span><strong>Asunto pro bono</strong><small>El caso se registrará sin cobro de honorarios.</small></span>
+        <label class="checkrow">
+          <input id="isProBono" type="checkbox">
+          <span><strong>Marcar como caso pro bono</strong><small>El ingreso no se contará como pago inmediato.</small></span>
         </label>
+
+        <div id="futureBox" class="futurebox hidden">
+          <div class="field" style="margin-bottom:0">
+            <label for="futureIncome">Ingreso futuro estimado (COP)</label>
+            <input id="futureIncome" type="number" min="0" step="1000" placeholder="Ej. 400000">
+            <small class="muted">Se contabilizará por separado como ingreso futuro esperado.</small>
+          </div>
+        </div>
       </div>
-      <div class="modal-foot">
-        <div><div class="muted">Total estimado</div><div class="total" id="total">$ 0</div></div>
-        <div><button type="button" class="secondary" id="cancel">Cancelar</button> <button class="primary" id="save" type="submit">Guardar caso</button></div>
+
+      <div class="modalfoot">
+        <div><div class="muted" id="totalLabel">Total cotizado</div><div class="total" id="modalTotal">$ 0</div></div>
+        <div>
+          <button type="button" class="secondary" id="cancel">Cancelar</button>
+          <button type="submit" class="primary" id="saveCase">Crear caso y PDF</button>
+        </div>
       </div>
     </form>
   </section>
 </div>
-
 <div id="notice" class="notice hidden" role="status"></div>
 
+<!-- Biblioteca para generar PDF en el navegador. No requiere Firebase. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
 (() => {
-  "use strict";
-  const KEY = "oneside_legal_cases_v1";
-  const $ = id => document.getElementById(id);
-  let items = [];
-  let cases = [];
-  let noticeTimer;
+"use strict";
 
-  const money = value => new Intl.NumberFormat("es-CO", {
-    style: "currency", currency: "COP", maximumFractionDigits: 0
-  }).format(Number(value) || 0);
+const STORAGE_KEY = "oneside_legal_cases_v2";
+const $ = id => document.getElementById(id);
+let cases = [];
+let quoteItems = [];
+let editingId = null;
+let noticeTimer;
 
-  function notify(message, error = false) {
-    const box = $("notice");
-    box.textContent = message;
-    box.classList.toggle("error", error);
-    box.classList.remove("hidden");
-    clearTimeout(noticeTimer);
-    noticeTimer = setTimeout(() => box.classList.add("hidden"), 3500);
-  }
+const money = n => new Intl.NumberFormat("es-CO", {
+  style:"currency", currency:"COP", maximumFractionDigits:0
+}).format(Number(n) || 0);
 
-  function readCases() {
-    const raw = localStorage.getItem(KEY);
-    if (!raw) return [];
-    const parsed = JSON.parse(raw);
-    if (!Array.isArray(parsed)) throw new Error("El almacenamiento tiene un formato inválido.");
-    return parsed;
-  }
+const escapeHTML = value => String(value ?? "").replace(/[&<>"']/g, c => ({
+  "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
+})[c]);
 
-  function persist(next) {
-    localStorage.setItem(KEY, JSON.stringify(next));
-    cases = next;
-  }
+function notify(message, error=false) {
+  const el = $("notice");
+  el.textContent = message;
+  el.classList.toggle("error", error);
+  el.classList.remove("hidden");
+  clearTimeout(noticeTimer);
+  noticeTimer = setTimeout(() => el.classList.add("hidden"), 3500);
+}
 
-  function safeText(value) {
-    return String(value ?? "").replace(/[&<>"']/g, c => ({
-      "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
-    })[c]);
-  }
-
-  function render() {
-    $("count").textContent = `(${cases.length})`;
-    $("caseList").replaceChildren();
-    $("empty").classList.toggle("hidden", cases.length !== 0);
-
-    for (const item of cases) {
-      const card = document.createElement("article");
-      card.className = "card";
-      const title = safeText(item.name || "Caso sin nombre");
-      const description = safeText(item.description || "Sin descripción.");
-      const documentName = safeText(item.document || "No especificado");
-      const pro = Boolean(item.proBono);
-      const total = pro ? 0 : Number(item.total) || 0;
-
-      card.innerHTML = `
-        <div class="card-body">
-          <div class="label">Asunto jurídico</div>
-          <h3>${title}</h3>
-          <span class="badge ${pro ? "pro" : ""}">${pro ? "Pro bono" : "Regular"}</span>
-          <p>${description}</p>
-          <div class="document"><strong>Documento requerido</strong><br>${documentName}</div>
-          <p class="muted">Creado: ${safeText(new Date(item.createdAt).toLocaleDateString("es-CO"))}</p>
-        </div>
-        <div class="card-foot">
-          <strong>Total estimado</strong>
-          <strong style="color:${pro ? "var(--green)" : "var(--navy)"}">${money(total)}</strong>
-        </div>
-        <div class="card-foot">
-          <button class="secondary" data-action="details" data-id="${safeText(item.id)}">Ver detalles</button>
-          <button class="secondary" data-action="delete" data-id="${safeText(item.id)}">Eliminar</button>
-        </div>`;
-      $("caseList").appendChild(card);
-    }
-  }
-
-  function updateQuote() {
-    const body = $("quoteList");
-    body.replaceChildren();
-    if (!items.length) {
-      const row = document.createElement("tr");
-      row.innerHTML = '<td colspan="3" class="muted">Aún no has añadido conceptos.</td>';
-      body.appendChild(row);
-    }
-
-    items.forEach((item, index) => {
-      const row = document.createElement("tr");
-      row.innerHTML = `<td>${safeText(item.name)}</td>
-        <td class="right">${money(item.value)}</td>
-        <td class="right"><button type="button" class="remove" data-remove="${index}" aria-label="Eliminar concepto">✕</button></td>`;
-      body.appendChild(row);
-    });
-
-    const sum = items.reduce((total, item) => total + item.value, 0);
-    $("total").textContent = money($("proBono").checked ? 0 : sum);
-    $("total").style.color = $("proBono").checked ? "var(--green)" : "var(--navy)";
-  }
-
-  function openModal() {
-    $("caseForm").reset();
-    items = [];
-    updateQuote();
-    $("overlay").classList.remove("hidden");
-    document.body.style.overflow = "hidden";
-    setTimeout(() => $("name").focus(), 50);
-  }
-
-  function closeModal() {
-    $("overlay").classList.add("hidden");
-    document.body.style.overflow = "";
-  }
-
-  $("open").addEventListener("click", openModal);
-  $("emptyCreate").addEventListener("click", openModal);
-  $("close").addEventListener("click", closeModal);
-  $("cancel").addEventListener("click", closeModal);
-  $("overlay").addEventListener("click", e => {
-    if (e.target === $("overlay")) closeModal();
-  });
-
-  $("addItem").addEventListener("click", () => {
-    const name = $("itemName").value.trim();
-    const raw = $("itemValue").value.trim();
-    const value = Number(raw);
-    if (!name) return notify("Escribe el nombre del concepto.", true);
-    if (raw === "" || !Number.isFinite(value) || value < 0) {
-      return notify("Ingresa un valor válido igual o superior a cero.", true);
-    }
-    items.push({name, value});
-    $("itemName").value = "";
-    $("itemValue").value = "";
-    updateQuote();
-    $("itemName").focus();
-  });
-
-  $("quoteList").addEventListener("click", e => {
-    const button = e.target.closest("[data-remove]");
-    if (!button) return;
-    items.splice(Number(button.dataset.remove), 1);
-    updateQuote();
-  });
-
-  $("proBono").addEventListener("change", updateQuote);
-  $("itemName").addEventListener("keydown", e => {
-    if (e.key === "Enter") { e.preventDefault(); $("itemValue").focus(); }
-  });
-  $("itemValue").addEventListener("keydown", e => {
-    if (e.key === "Enter") { e.preventDefault(); $("addItem").click(); }
-  });
-
-  $("caseForm").addEventListener("submit", e => {
-    e.preventDefault();
-    if (!$("caseForm").reportValidity()) return;
-
-    const name = $("name").value.trim();
-    const description = $("description").value.trim();
-    const documentName = $("document").value.trim();
-    if (!name || !description || !documentName) {
-      return notify("Completa todos los campos obligatorios.", true);
-    }
-
-    const proBono = $("proBono").checked;
-    const total = proBono ? 0 : items.reduce((sum, item) => sum + item.value, 0);
-    const record = {
-      id: (crypto.randomUUID ? crypto.randomUUID() : String(Date.now())),
-      name, description, document: documentName,
-      items: items.map(item => ({...item})),
-      proBono, total, createdAt: new Date().toISOString()
-    };
-
-    const button = $("save");
-    button.disabled = true;
-    try {
-      persist([record, ...cases]);
-      render();
-      closeModal();
-      notify("Caso guardado correctamente.");
-    } catch (error) {
-      console.error(error);
-      notify("No se pudo guardar. Comprueba que el navegador permita almacenamiento local.", true);
-    } finally {
-      button.disabled = false;
-    }
-  });
-
-  $("caseList").addEventListener("click", e => {
-    const button = e.target.closest("button[data-action]");
-    if (!button) return;
-    const item = cases.find(record => record.id === button.dataset.id);
-    if (!item) return;
-
-    if (button.dataset.action === "details") {
-      const detail = [
-        `Caso: ${item.name}`,
-        `Descripción: ${item.description}`,
-        `Documento requerido: ${item.document}`,
-        `Tipo: ${item.proBono ? "Pro bono" : "Regular"}`,
-        "Conceptos:",
-        ...(item.items || []).map(i => `- ${i.name}: ${money(i.value)}`),
-        `Total: ${money(item.total)}`
-      ].join("\n");
-      alert(detail);
-    }
-
-    if (button.dataset.action === "delete") {
-      if (!confirm(`¿Seguro que deseas eliminar el caso "${item.name}"?`)) return;
-      try {
-        persist(cases.filter(record => record.id !== item.id));
-        render();
-        notify("Caso eliminado.");
-      } catch (error) {
-        notify("No se pudo actualizar el almacenamiento.", true);
-      }
-    }
-  });
-
-  $("export").addEventListener("click", () => {
-    try {
-      const blob = new Blob([JSON.stringify(cases, null, 2)], {type:"application/json;charset=utf-8"});
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = "oneside-legal-respaldo.json";
-      link.click();
-      setTimeout(() => URL.revokeObjectURL(url), 1000);
-      notify("Respaldo preparado.");
-    } catch (error) {
-      notify("No se pudo exportar el respaldo.", true);
-    }
-  });
-
-  document.addEventListener("keydown", e => {
-    if (e.key === "Escape" && !$("overlay").classList.contains("hidden")) closeModal();
-  });
-
+function load() {
   try {
-    cases = readCases().sort((a,b) => String(b.createdAt || "").localeCompare(String(a.createdAt || "")));
-    render();
-  } catch (error) {
-    console.error(error);
-    $("empty").classList.remove("hidden");
-    $("empty").innerHTML = `
-      <h3>No se pudieron leer los casos</h3>
-      <p class="muted">El almacenamiento local está bloqueado o contiene datos inválidos. Prueba con una ventana normal del navegador.</p>
-      <button class="secondary" id="resetStorage">Iniciar almacenamiento nuevo</button>`;
-    $("resetStorage").addEventListener("click", () => {
-      try {
-        localStorage.removeItem(KEY);
-        cases = [];
-        render();
-        notify("Almacenamiento reiniciado.");
-      } catch (e) {
-        notify("El navegador no permite usar almacenamiento local.", true);
-      }
+    const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    cases = Array.isArray(data) ? data : [];
+  } catch {
+    cases = [];
+    notify("No se pudieron leer los casos guardados. Exporta tus respaldos anteriores si los tienes.", true);
+  }
+}
+
+function persist() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(cases));
+    return true;
+  } catch (err) {
+    notify("No se pudieron guardar los cambios. Comprueba el almacenamiento del navegador.", true);
+    return false;
+  }
+}
+
+function calcCaseTotal(record) {
+  return (record.items || []).reduce((sum, item) => sum + (Number(item.value) || 0), 0);
+}
+
+function render() {
+  $("caseCount").textContent = `(${cases.length})`;
+  $("caseList").replaceChildren();
+  $("empty").classList.toggle("hidden", cases.length > 0);
+
+  let immediate = 0;
+  let future = 0;
+  let regularCount = 0;
+  let proCount = 0;
+
+  cases.forEach(record => {
+    const total = calcCaseTotal(record);
+    if (record.proBono) {
+      future += Math.max(0, Number(record.futureIncome) || 0);
+      proCount++;
+    } else {
+      immediate += total;
+      regularCount++;
+    }
+
+    const card = document.createElement("article");
+    card.className = "card";
+    const label = record.proBono ? "Pro bono · ingreso futuro" : "Pago inmediato";
+    const displayedAmount = record.proBono
+      ? Number(record.futureIncome) || 0
+      : total;
+
+    card.innerHTML = `
+      <div class="cardbody">
+        <div class="eyebrow">${record.proBono ? "Caso pro bono" : "Caso regular"}</div>
+        <h3>${escapeHTML(record.name)}</h3>
+        <span class="badge ${record.proBono ? "pro" : ""}">${label}</span>
+        <p>${escapeHTML(record.description)}</p>
+        <div style="background:#f8f7f4;border-radius:8px;padding:12px">
+          <div class="muted">Actuaciones / documentos</div>
+          <div>${escapeHTML(record.documents)}</div>
+        </div>
+        <p class="muted">Creado: ${escapeHTML(new Date(record.createdAt).toLocaleDateString("es-CO"))}</p>
+      </div>
+      <div class="cardfoot">
+        <span class="muted">${record.proBono ? "Ingreso futuro estimado" : "Total por facturar"}</span>
+        <strong style="color:${record.proBono ? "var(--green)" : "var(--navy)"}">${money(displayedAmount)}</strong>
+      </div>
+      <div class="cardfoot cardactions">
+        <button class="secondary" data-action="edit" data-id="${escapeHTML(record.id)}">Editar</button>
+        <button class="secondary" data-action="pdf" data-id="${escapeHTML(record.id)}">Generar PDF</button>
+        <button class="danger" data-action="delete" data-id="${escapeHTML(record.id)}">Eliminar</button>
+      </div>`;
+    $("caseList").appendChild(card);
+  });
+
+  $("immediateTotal").textContent = money(immediate);
+  $("futureTotal").textContent = money(future);
+  $("grandTotal").textContent = money(immediate + future);
+  $("immediateCount").textContent = `${regularCount} casos regulares`;
+  $("futureCount").textContent = `${proCount} casos pro bono`;
+}
+
+function currentItemsTotal() {
+  return quoteItems.reduce((sum, item) => sum + Number(item.value || 0), 0);
+}
+
+function updateQuoteUI() {
+  const body = $("itemList");
+  body.replaceChildren();
+
+  if (!quoteItems.length) {
+    body.innerHTML = '<tr><td colspan="3" class="muted">Añade los conceptos de la cotización.</td></tr>';
+  } else {
+    quoteItems.forEach((item, index) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td>${escapeHTML(item.name)}</td>
+        <td class="right">${money(item.value)}</td>
+        <td class="right"><button type="button" class="remove" data-remove="${index}">✕</button></td>`;
+      body.appendChild(tr);
     });
   }
+
+  const total = currentItemsTotal();
+  const pro = $("isProBono").checked;
+  $("quoteTotal").textContent = money(total);
+  $("modalTotal").textContent = money(pro ? Number($("futureIncome").value) || 0 : total);
+  $("totalLabel").textContent = pro ? "Ingreso futuro estimado" : "Total por facturar";
+}
+
+function syncProBono() {
+  const pro = $("isProBono").checked;
+  $("futureBox").classList.toggle("hidden", !pro);
+  $("futureIncome").required = pro;
+  $("modalTotal").textContent = money(pro ? Number($("futureIncome").value) || 0 : currentItemsTotal());
+  $("totalLabel").textContent = pro ? "Ingreso futuro estimado" : "Total por facturar";
+}
+
+function openModal(record=null) {
+  $("caseForm").reset();
+  editingId = record ? record.id : null;
+  quoteItems = record ? (record.items || []).map(item => ({...item})) : [];
+
+  $("modalTitle").textContent = record ? "Editar caso" : "Crear caso y cotización";
+  $("saveCase").textContent = record ? "Guardar cambios y PDF" : "Crear caso y PDF";
+
+  if (record) {
+    $("caseName").value = record.name || "";
+    $("description").value = record.description || "";
+    $("documents").value = record.documents || "";
+    $("isProBono").checked = Boolean(record.proBono);
+    $("futureIncome").value = record.proBono ? (record.futureIncome ?? "") : "";
+  }
+
+  syncProBono();
+  updateQuoteUI();
+  $("overlay").classList.remove("hidden");
+  document.body.style.overflow = "hidden";
+  $("caseName").focus();
+}
+
+function closeModal() {
+  $("overlay").classList.add("hidden");
+  document.body.style.overflow = "";
+}
+
+function generatePDF(record) {
+  if (!window.jspdf || !window.jspdf.jsPDF) {
+    notify("No se pudo cargar la biblioteca PDF. Comprueba tu conexión a internet e inténtalo otra vez.", true);
+    return false;
+  }
+
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF({unit:"mm", format:"a4"});
+  const pageW = 210, margin = 18, usableW = pageW - margin * 2;
+  const navy = [11,24,41], gold = [198,166,107], muted = [119,128,141], text = [32,43,57];
+  let y = 0;
+
+  const addWrapped = (str, x, yy, width, size=10, color=text, leading=5) => {
+    pdf.setFont("helvetica","normal");
+    pdf.setFontSize(size);
+    pdf.setTextColor(...color);
+    const lines = pdf.splitTextToSize(String(str || "—"), width);
+    pdf.text(lines, x, yy);
+    return yy + lines.length * leading;
+  };
+
+  const checkPage = (needed=20) => {
+    if (y + needed > 275) {
+      pdf.addPage();
+      y = 20;
+    }
+  };
+
+  // Cabecera de marca
+  pdf.setFillColor(...navy);
+  pdf.rect(0,0,pageW,34,"F");
+  pdf.setFillColor(...gold);
+  pdf.rect(0,33,pageW,1.5,"F");
+  pdf.setTextColor(255,255,255);
+  pdf.setFont("helvetica","bold");
+  pdf.setFontSize(18);
+  pdf.text("ONESIDE", margin, 14);
+  pdf.setTextColor(...gold);
+  pdf.text("LEGAL", 47, 14);
+  pdf.setFont("helvetica","normal");
+  pdf.setFontSize(7.5);
+  pdf.text("MARCHENA CONSULTORES", margin, 21);
+  pdf.setTextColor(255,255,255);
+  pdf.setFont("helvetica","bold");
+  pdf.setFontSize(11);
+  pdf.text("COTIZACIÓN DE SERVICIOS JURÍDICOS", pageW-margin, 15, {align:"right"});
+  pdf.setFont("helvetica","normal");
+  pdf.setFontSize(8);
+  pdf.text(record.proBono ? "CASO PRO BONO" : "CASO REGULAR", pageW-margin, 22, {align:"right"});
+
+  y = 47;
+  pdf.setFont("helvetica","bold");
+  pdf.setFontSize(9);
+  pdf.setTextColor(...muted);
+  pdf.text("PROPUESTA DE SERVICIOS", margin, y);
+  y += 9;
+  pdf.setFont("helvetica","bold");
+  pdf.setFontSize(20);
+  pdf.setTextColor(...navy);
+  const titleLines = pdf.splitTextToSize(record.name, usableW);
+  pdf.text(titleLines, margin, y);
+  y += titleLines.length * 8 + 3;
+
+  pdf.setFont("helvetica","normal");
+  pdf.setFontSize(8.5);
+  pdf.setTextColor(...muted);
+  pdf.text("Fecha: " + new Date().toLocaleDateString("es-CO"), margin, y);
+  y += 10;
+
+  pdf.setFont("helvetica","bold");
+  pdf.setFontSize(10);
+  pdf.setTextColor(...navy);
+  pdf.text("DESCRIPCIÓN DEL CASO", margin, y);
+  y += 6;
+  y = addWrapped(record.description, margin, y, usableW, 9, text, 4.6) + 6;
+  checkPage(25);
+
+  pdf.setFont("helvetica","bold");
+  pdf.setFontSize(10);
+  pdf.setTextColor(...navy);
+  pdf.text("DOCUMENTOS / ACTUACIONES REQUERIDAS", margin, y);
+  y += 6;
+  y = addWrapped(record.documents, margin, y, usableW, 9, text, 4.6) + 8;
+  checkPage(35);
+
+  pdf.setFont("helvetica","bold");
+  pdf.setFontSize(10);
+  pdf.setTextColor(...navy);
+  pdf.text("DESGLOSE DE HONORARIOS", margin, y);
+  y += 7;
+
+  // Tabla de conceptos con alineación fija.
+  const colDesc = margin + 3;
+  const colAmount = pageW - margin - 3;
+  pdf.setFillColor(...navy);
+  pdf.rect(margin,y,usableW,9,"F");
+  pdf.setFont("helvetica","bold");
+  pdf.setFontSize(8);
+  pdf.setTextColor(255,255,255);
+  pdf.text("CONCEPTO", colDesc, y+6);
+  pdf.text("VALOR", colAmount, y+6, {align:"right"});
+  y += 9;
+
+  if (!record.items || !record.items.length) {
+    pdf.setFont("helvetica","normal");
+    pdf.setFontSize(9);
+    pdf.setTextColor(...text);
+    pdf.text("Sin conceptos desglosados.", colDesc, y+6);
+    y += 10;
+  } else {
+    record.items.forEach((item, index) => {
+      const descLines = pdf.splitTextToSize(item.name, usableW - 50);
+      const rowH = Math.max(9, descLines.length * 4.5 + 4);
+      checkPage(rowH + 5);
+      pdf.setDrawColor(231,229,223);
+      pdf.line(margin,y+rowH,pageW-margin,y+rowH);
+      pdf.setFont("helvetica","normal");
+      pdf.setFontSize(8.5);
+      pdf.setTextColor(...text);
+      pdf.text(descLines, colDesc, y+6);
+      pdf.text(money(item.value), colAmount, y+6, {align:"right"});
+      y += rowH;
+    });
+  }
+
+  y += 5;
+  checkPage(32);
+
+  const total = record.proBono ? (Number(record.futureIncome)||0) : calcCaseTotal(record);
+  pdf.setFillColor(...navy);
+  pdf.rect(margin,y,usableW,17,"F");
+  pdf.setFillColor(...gold);
+  pdf.rect(margin,y,2,17,"F");
+  pdf.setFont("helvetica","bold");
+  pdf.setFontSize(10);
+  pdf.setTextColor(255,255,255);
+  pdf.text(record.proBono ? "INGRESO FUTURO ESTIMADO" : "TOTAL POR FACTURAR", margin+6, y+10.5);
+  pdf.setFontSize(14);
+  pdf.text(money(total), pageW-margin-4, y+11, {align:"right"});
+  y += 25;
+
+  if (record.proBono) {
+    y = addWrapped("Este asunto se identifica como pro bono. El importe reflejado corresponde al ingreso futuro estimado y no se suma al pago inmediato por facturar.", margin, y, usableW, 8, muted, 4.2) + 5;
+  }
+
+  checkPage(25);
+  pdf.setDrawColor(...gold);
+  pdf.line(margin, y, pageW-margin, y);
+  y += 7;
+  addWrapped("ONESIDE LEGAL · MARCHENA CONSULTORES", margin, y, usableW, 7, muted, 4);
+  y += 5;
+  addWrapped("Cotización generada por el sistema de gestión de casos. Los valores son los registrados para este asunto.", margin, y, usableW, 7, muted, 4);
+
+  const safeName = record.name.replace(/[^a-z0-9_-]+/gi,"_").slice(0,65) || "Caso";
+  pdf.save("Cotizacion_ONESIDE_" + safeName + ".pdf");
+  return true;
+}
+
+$("newCase").addEventListener("click", () => openModal());
+$("emptyCreate").addEventListener("click", () => openModal());
+$("closeModal").addEventListener("click", closeModal);
+$("cancel").addEventListener("click", closeModal);
+$("overlay").addEventListener("click", e => {
+  if (e.target === $("overlay")) closeModal();
+});
+
+$("addItem").addEventListener("click", () => {
+  const name = $("itemName").value.trim();
+  const raw = $("itemValue").value;
+  const value = Number(raw);
+  if (!name) return notify("Escribe el nombre del concepto.", true);
+  if (raw === "" || !Number.isFinite(value) || value < 0) {
+    return notify("Ingresa un valor válido.", true);
+  }
+  quoteItems.push({name, value});
+  $("itemName").value = "";
+  $("itemValue").value = "";
+  updateQuoteUI();
+  $("itemName").focus();
+});
+
+$("itemList").addEventListener("click", e => {
+  const btn = e.target.closest("[data-remove]");
+  if (!btn) return;
+  quoteItems.splice(Number(btn.dataset.remove),1);
+  updateQuoteUI();
+});
+
+$("isProBono").addEventListener("change", () => {
+  syncProBono();
+  updateQuoteUI();
+});
+$("futureIncome").addEventListener("input", updateQuoteUI);
+
+$("caseForm").addEventListener("submit", e => {
+  e.preventDefault();
+  if (!$("caseForm").reportValidity()) return;
+
+  const name = $("caseName").value.trim();
+  const description = $("description").value.trim();
+  const documents = $("documents").value.trim();
+  const proBono = $("isProBono").checked;
+  const futureIncome = Number($("futureIncome").value);
+
+  if (!name || !description || !documents) return notify("Completa los campos obligatorios.", true);
+  if (proBono && ($("futureIncome").value.trim() === "" || !Number.isFinite(futureIncome) || futureIncome < 0)) {
+    return notify("Indica el ingreso futuro estimado del caso pro bono.", true);
+  }
+  if (!quoteItems.length && !confirm("No has añadido conceptos. ¿Deseas guardar el caso con cotización de $0?")) return;
+
+  const previous = editingId ? cases.find(c => c.id === editingId) : null;
+  const record = {
+    id: editingId || (crypto.randomUUID ? crypto.randomUUID() : String(Date.now())),
+    name, description, documents,
+    items: quoteItems.map(item => ({...item})),
+    proBono,
+    futureIncome: proBono ? futureIncome : 0,
+    createdAt: previous ? previous.createdAt : new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  };
+
+  const oldCases = [...cases];
+  if (editingId) {
+    cases = cases.map(c => c.id === editingId ? record : c);
+  } else {
+    cases = [record, ...cases];
+  }
+
+  if (!persist()) {
+    cases = oldCases;
+    return;
+  }
+
+  render();
+  closeModal();
+  const generated = generatePDF(record);
+  notify(generated
+    ? (editingId ? "Caso actualizado y PDF generado." : "Caso creado y PDF generado.")
+    : "Caso guardado. No se pudo generar el PDF; usa el botón PDF del caso.");
+  editingId = null;
+});
+
+$("caseList").addEventListener("click", e => {
+  const btn = e.target.closest("[data-action]");
+  if (!btn) return;
+  const record = cases.find(c => c.id === btn.dataset.id);
+  if (!record) return;
+
+  if (btn.dataset.action === "edit") {
+    openModal(record);
+  } else if (btn.dataset.action === "pdf") {
+    if (generatePDF(record)) notify("PDF generado.");
+  } else if (btn.dataset.action === "delete") {
+    if (!confirm(`¿Eliminar el caso "${record.name}"?`)) return;
+    const oldCases = [...cases];
+    cases = cases.filter(c => c.id !== record.id);
+    if (persist()) {
+      render();
+      notify("Caso eliminado.");
+    } else {
+      cases = oldCases;
+      render();
+    }
+  }
+});
+
+$("exportBackup").addEventListener("click", () => {
+  const blob = new Blob([JSON.stringify(cases,null,2)], {type:"application/json;charset=utf-8"});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "ONESIDE_Legal_respaldo.json";
+  link.click();
+  setTimeout(() => URL.revokeObjectURL(url),1000);
+  notify("Respaldo exportado.");
+});
+
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") closeModal();
+});
+
+load();
+render();
 })();
 </script>
 </body>
 </html>
+
